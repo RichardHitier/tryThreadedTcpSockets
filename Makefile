@@ -1,9 +1,14 @@
-targets = server client
+tcpTargets = tcpServer tcpClient
+threadTargets = threadUser
+alltargets = $(tcpTargets)  $(threadTargets)
+
+threadUser: threadUser.c
+	gcc -lpthread -o$@ $<
 
 .PHONY: all
-all: $(targets)
+all: $(tcpTargets)
 
 .PHONY: clean 
 clean: 
-	- rm $(targets)
+	- rm $(alltargets)
 
