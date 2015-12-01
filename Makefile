@@ -16,6 +16,18 @@ clean:
 	- rm $(alltargets)
 	- rm *.o
 
+##
+# Rules
+#
+
+%.o: %.c
+	gcc -c -o$@ $< 
+
+threadedServer.o: threadedServer.c
+	gcc -pthread -c -o$@ $<
+threadedServer: threadedServer.o clientserverTools.o
+	gcc -pthread -o$@ $^
+
 .SECONDEXPANSION:
 
 $(tcpTargets): $$@.o clientserverTools.o
@@ -23,6 +35,3 @@ $(tcpTargets): $$@.o clientserverTools.o
 
 $(threadsTargets): $$@.c
 	gcc -pthread -o$@ $@.c
-
-%.o: %.c
-	gcc -c -o$@ $< 
