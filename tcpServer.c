@@ -42,7 +42,7 @@ void get_client_connection(int *newsockfd, int sockfd){
           error("ERROR on accept");
 }
 
-void read_on_socket(char *buffer, int newsockfd){
+void read_from_socket(char *buffer, int newsockfd){
     int n;
     // read from socket
     bzero(buffer,256);
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
      get_client_connection(&newsockfd, sockfd);
 
      while( 1 ){
-         read_on_socket(buffer, newsockfd);
+         read_from_socket(buffer, newsockfd);
          printf("Here is the message: %s\n",buffer);
 
          write_on_socket("I got your message", newsockfd);
