@@ -41,12 +41,12 @@ main (int ac, char **av)
     fprintf (stderr, "pthread_create error for thread 1\n");
     exit (1);
   }
+  (void)pthread_join (th1, &ret);
 
   if (pthread_create (&th2, NULL, read_tab_process, NULL) < 0) {
     fprintf (stderr, "pthread_create error for thread 2\n");
     exit (1);
   }
 
-  (void)pthread_join (th1, &ret);
   (void)pthread_join (th2, &ret);
 }
