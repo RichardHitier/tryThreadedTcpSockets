@@ -14,11 +14,15 @@ allTcp: $(tcpTargets)
 .PHONY: clean 
 clean: 
 	- rm $(alltargets)
+	- rm *.o
 
 .SECONDEXPANSION:
 
-$(tcpTargets): $$@.c
-	gcc -o$@ $@.c
+$(tcpTargets): $$@.o clientserverTools.o
+	gcc -o$@ $^
 
 $(threadsTargets): $$@.c
 	gcc -pthread -o$@ $@.c
+
+%.o: %.c
+	gcc -c -o$@ $< 
