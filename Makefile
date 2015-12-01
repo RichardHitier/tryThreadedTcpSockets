@@ -1,5 +1,5 @@
 tcpTargets = tcpServer tcpClient
-threadsTargets = threadUser ficheux pesenti
+threadsTargets = threadUser ficheux pesenti simpleSem
 alltargets = $(tcpTargets)  $(threadsTargets)
 
 .PHONY: all
