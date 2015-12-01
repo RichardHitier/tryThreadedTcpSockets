@@ -3,7 +3,7 @@ threadsTargets = threadUser ficheux pesenti simpleSem
 alltargets = $(tcpTargets)  $(threadsTargets)
 
 .PHONY: all
-all: $(alltargets);
+all: $(alltargets)
 
 .PHONY: allThreads
 allThreads: $(threadsTargets)
@@ -15,6 +15,10 @@ allTcp: $(tcpTargets)
 clean: 
 	- rm $(alltargets)
 
+.SECONDEXPANSION:
 
-$(threadsTargets):
+$(tcpTargets): $$@.c
+	gcc -o$@ $@.c
+
+$(threadsTargets): $$@.c
 	gcc -pthread -o$@ $@.c
