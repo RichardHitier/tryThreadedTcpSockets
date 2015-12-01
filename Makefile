@@ -3,10 +3,10 @@ threadTargets = threadUser
 alltargets = $(tcpTargets)  $(threadTargets)
 
 threadUser: threadUser.c
-	gcc -lpthread -o$@ $<
+	gcc -pthread -o$@ $<
 
-.PHONY: all
-all: $(tcpTargets)
+.PHONY: allTcp
+allTcp: $(tcpTargets)
 
 .PHONY: clean 
 clean: 
