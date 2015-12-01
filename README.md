@@ -5,7 +5,8 @@ C threads and sockets auto tutorial
 ## Sockets
 
     make
-    ./server 1234
-    ./client localhost 1234
+    ./tcpServer 1234
+    # change term
+    ./tcpClient localhost 1234
 
 
