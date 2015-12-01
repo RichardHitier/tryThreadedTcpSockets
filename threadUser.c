@@ -9,30 +9,55 @@
  * http://pficheux.free.fr/articles/lmf/threads/
  */
 
-// g_mutex
+
+pthread_mutex_t g_mutex=PTHREAD_MUTEX_INITIALIZER;
+int g_var;
+
 // g_condition
 
-void * cb1(void * arg){
-    int i;
-    for(i=0; i<5; i++){
-        printf("Thread %s: %d\n", (char*)arg, i);
-        sleep(1);
-    }
+
+void * writing_process(void * arg){
+    pthread_mutex_lock(&g_mutex);
+    g_var=5;
+    printf("writen g_var: %d\n", g_var);
+    sleep(1);
+    pthread_mutex_unlock(&g_mutex);
+    pthread_exit(0);
+}
+
+void * reading_process(void * arg){
+    pthread_mutex_lock(&g_mutex);
+    printf("reading g_var: %d\n", g_var);
+    sleep(1);
+    pthread_mutex_unlock(&g_mutex);
     pthread_exit(0);
 }
 
 int main( int argc, char **argv){
-    pthread_t th1, th2;
     void *ret;
+    pthread_t th1, th2;
 
-    if( pthread_create( &th1, NULL, cb1, "1")<0){
-        perror("THREAD_ERR Couldnt create thread");
-        exit(1);
+    if( pthread_mutex_init(&g_mutex, NULL))
+        perror("MUTEX_INIT FAILED");
+
+    if( pthread_create( &th1, NULL, writing_process, "1")<0){
+        perror("THREAD_ERR Couldnt create thread on writing_process");
+        return EXIT_FAILURE;
     }
-    if( pthread_create( &th2, NULL, cb1, "2")<0){
-        perror("THREAD_ERR Couldnt create thread");
-        exit(1);
+    if( pthread_join(th1, &ret)){
+        perror("pthread_join1");
+        return EXIT_FAILURE;
     }
-    (void)pthread_join(th1, &ret);
-    (void)pthread_join(th2, &ret);
+
+    if( pthread_create( &th2, NULL, reading_process, "2")<0){
+        perror("THREAD_ERR Couldnt create thread on reading_process");
+        return EXIT_FAILURE;
+    }
+    if( pthread_join(th2, &ret)){
+        perror("pthread_join2");
+        return EXIT_FAILURE;
+    }
+
+    if( pthread_mutex_destroy(&g_mutex))
+        perror("MUTEX_DESTROY FAILED");;
 }
