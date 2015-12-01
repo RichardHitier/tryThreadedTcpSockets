@@ -1,6 +1,7 @@
 tcpTargets = tcpServer tcpClient
 threadsTargets = threadUser ficheux pesenti simpleSem
-alltargets = $(tcpTargets)  $(threadsTargets)
+tcpThrTargets = threadedServer threadedClient
+alltargets = $(tcpTargets)  $(threadsTargets) $(tcpThrTargets)
 
 .PHONY: all
 all: $(alltargets)
@@ -23,12 +24,10 @@ clean:
 %.o: %.c
 	gcc -c -o$@ $< 
 
-threadedServer.o: threadedServer.c
-	gcc -pthread -c -o$@ $<
-threadedServer: threadedServer.o clientserverTools.o
-	gcc -pthread -o$@ $^
-
 .SECONDEXPANSION:
+
+$(tcpThrTargets): $$@.o clientserverTools.o
+	gcc -pthread -o$@ $^
 
 $(tcpTargets): $$@.o clientserverTools.o
 	gcc -o$@ $^
