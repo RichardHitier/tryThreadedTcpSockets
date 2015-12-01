@@ -13,7 +13,8 @@ void *reading_process(void *arg){
 
 void *writing_process(void *arg){
     while(1){
-         write_on_socket("I got your message", newsockfd);
+         write_on_socket("TM message", newsockfd);
+         sleep(1);
      }
 }
 
