@@ -17,28 +17,28 @@
 
 
 typedef struct {
-    pthread_mutex_t g_mutex;
-    int g_var;
+    pthread_mutex_t mutex;
+    pthread_cond_t cond;
+    int var;
 } data_t; 
-data_t new_data;
-
-// g_condition
+data_t g_data;
 
 
 void * writing_process(void * arg){
-    pthread_mutex_lock(&new_data.g_mutex);
-    new_data.g_var=5;
-    printf("writen g_var: %d\n", new_data.g_var);
-    sleep(1);
-    pthread_mutex_unlock(&new_data.g_mutex);
+    pthread_mutex_lock(&g_data.mutex);
+    g_data.var=5;
+    printf("write var before sending signal: %d\n", g_data.var);
+    sleep(2);
+    pthread_cond_signal(&g_data.cond);
+    pthread_mutex_unlock(&g_data.mutex);
     pthread_exit(0);
 }
 
 void * reading_process(void * arg){
-    pthread_mutex_lock(&new_data.g_mutex);
-    printf("reading g_var: %d\n", new_data.g_var);
-    sleep(1);
-    pthread_mutex_unlock(&new_data.g_mutex);
+    pthread_mutex_lock(&g_data.mutex);
+    pthread_cond_wait(&g_data.cond, &g_data.mutex);
+    printf("reading var after signal received: %d\n", g_data.var);
+    pthread_mutex_unlock(&g_data.mutex);
     pthread_exit(0);
 }
 
@@ -47,29 +47,29 @@ int main( int argc, char **argv){
     pthread_t th1, th2;
 
 
-    if( pthread_mutex_init(&new_data.g_mutex, NULL))
+    if( pthread_mutex_init(&g_data.mutex, NULL))
         perror("MUTEX_INIT FAILED");
 
     if( pthread_create( &th1, NULL, writing_process, "1")<0){
         perror("THREAD_ERR Couldnt create thread on writing_process");
         return EXIT_FAILURE;
     }
-    if( pthread_join(th1, &ret)){
-        perror("pthread_join1");
-        return EXIT_FAILURE;
-    }
-
-    printf("Didnt event created the 2nd thread\n");
 
     if( pthread_create( &th2, NULL, reading_process, "2")<0){
         perror("THREAD_ERR Couldnt create thread on reading_process");
         return EXIT_FAILURE;
     }
+
+    if( pthread_join(th1, &ret)){
+        perror("pthread_join1");
+        return EXIT_FAILURE;
+    }
+
     if( pthread_join(th2, &ret)){
         perror("pthread_join2");
         return EXIT_FAILURE;
     }
 
-    if( pthread_mutex_destroy(&new_data.g_mutex))
+    if( pthread_mutex_destroy(&g_data.mutex))
         perror("MUTEX_DESTROY FAILED");;
 }
