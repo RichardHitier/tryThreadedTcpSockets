@@ -1,9 +1,12 @@
 tcpTargets = tcpServer tcpClient
-threadTargets = threadUser
-alltargets = $(tcpTargets)  $(threadTargets)
+threadsTargets = threadUser ficheux pesenti
+alltargets = $(tcpTargets)  $(threadsTargets)
 
-threadUser: threadUser.c
-	gcc -pthread -o$@ $<
+.PHONY: all
+all: $(alltargets);
+
+.PHONY: allThreads
+allThreads: $(threadsTargets)
 
 .PHONY: allTcp
 allTcp: $(tcpTargets)
@@ -12,3 +15,6 @@ allTcp: $(tcpTargets)
 clean: 
 	- rm $(alltargets)
 
+
+$(threadsTargets):
+	gcc -pthread -o$@ $@.c
