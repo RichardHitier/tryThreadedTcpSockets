@@ -24,13 +24,15 @@ clean:
 %.o: %.c
 	gcc -c -o$@ $< 
 
+# guess prerequisites from target name
+#
 .SECONDEXPANSION:
-
-$(tcpThrTargets): $$@.o clientserverTools.o
-	gcc -pthread -o$@ $^
 
 $(tcpTargets): $$@.o clientserverTools.o
 	gcc -o$@ $^
 
 $(threadsTargets): $$@.c
-	gcc -pthread -o$@ $@.c
+	gcc -pthread -o$@ $^
+
+$(tcpThrTargets): $$@.o clientserverTools.o
+	gcc -pthread -o$@ $^
