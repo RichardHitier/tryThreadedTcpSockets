@@ -7,14 +7,18 @@ void *reading_process(void *arg){
      char buffer[256];
      while( 1 ){
          read_from_socket(buffer, newsockfd);
-         printf("Here is the message: %s\n",buffer);
+         fprintf(stderr,"Here is the message: %s\n",buffer);
      }
 }
 
 void *writing_process(void *arg){
+    char msg[15];
+    int i=0;
     while(1){
-         write_on_socket("TM message", newsockfd);
-         sleep(1);
+        sprintf(msg, "TM message %d", i++);
+         write_on_socket(msg, newsockfd);
+         fprintf(stderr,"writing %s\n", msg);
+         sleep(3);
      }
 }
 
