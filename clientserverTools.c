@@ -1,7 +1,6 @@
 #include "clientserverTools.h"
 
-void error(const char *msg)
-{
+void error(const char *msg) {
     perror(msg);
     exit(1);
 }
@@ -33,8 +32,6 @@ void get_client_connection(int *newsockfd, int sockfd){
      if (*newsockfd < 0) 
           error("ERROR on accept");
 }
-
-
 
 void open_and_connect(int *sockfd, char *servername, int portno){
     struct sockaddr_in serv_addr;
