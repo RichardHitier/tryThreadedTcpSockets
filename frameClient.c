@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 
 
     read_frame_from_socket(&ourFrame,  sockfd);
+    print_frame_msg( &ourFrame);
 
     close(sockfd);
     return 0;

@@ -23,3 +23,4 @@ void write_on_socket(char *buffer, int sockfd);
 void read_from_socket(char *buffer, int sockfd);
 int  write_frame_on_socket(t_msg_frame *msgFrame,  int sockfd);
 int  read_frame_from_socket(t_msg_frame *msgFrame,  int sockfd);
+void print_frame_msg( t_msg_frame *msgFrame);

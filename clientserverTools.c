@@ -105,3 +105,11 @@ int  read_frame_from_socket(t_msg_frame *msgFrame,  int sockfd){
     printf("recv %d\n", n);
     return n;
 }
+
+void print_frame_msg( t_msg_frame *msgFrame){
+    printf("msgSot: %d\n", msgFrame->msgSot);
+    printf("cmdId: %d\n", msgFrame->cmdId);
+    printf("bdyLgth: %d\n", msgFrame->bdyLgth);
+    printf("msgBody: %s\n", msgFrame->msgBody);
+    printf("msgEot: %d\n", msgFrame->msgEot);
+}
