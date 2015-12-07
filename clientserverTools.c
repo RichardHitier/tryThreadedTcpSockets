@@ -76,3 +76,32 @@ void read_from_socket(char *buffer, int sockfd){
     if (n < 0) error("ERROR reading from socket");
 }
 
+int  write_frame_on_socket(t_msg_frame *msgFrame,  int sockfd){
+    int n=0;
+    n += write( sockfd, &msgFrame->msgSot, sizeof( msgFrame->msgSot));
+    printf("sent %d\n", n);
+    n += write( sockfd, &msgFrame->cmdId, sizeof( msgFrame->cmdId));
+    printf("sent %d\n", n);
+    n += write( sockfd, &msgFrame->bdyLgth, sizeof( msgFrame->bdyLgth));
+    printf("sent %d\n", n);
+    n += write( sockfd, &msgFrame->msgBody, sizeof( msgFrame->msgBody));
+    printf("sent %d\n", n);
+    n += write( sockfd, &msgFrame->msgEot, sizeof( msgFrame->msgEot));
+    printf("sent %d\n", n);
+    return n;
+}
+
+int  read_frame_from_socket(t_msg_frame *msgFrame,  int sockfd){
+    int n=0;
+    n += read( sockfd, &msgFrame->msgSot, sizeof( msgFrame->msgSot));
+    printf("recv %d\n", n);
+    n += read( sockfd, &msgFrame->cmdId, sizeof( msgFrame->cmdId));
+    printf("recv %d\n", n);
+    n += read( sockfd, &msgFrame->bdyLgth, sizeof( msgFrame->bdyLgth));
+    printf("recv %d\n", n);
+    n += read( sockfd, &msgFrame->msgBody, sizeof( msgFrame->msgBody));
+    printf("recv %d\n", n);
+    n += read( sockfd, &msgFrame->msgEot, sizeof( msgFrame->msgEot));
+    printf("recv %d\n", n);
+    return n;
+}

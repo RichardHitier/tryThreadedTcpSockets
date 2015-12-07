@@ -1,4 +1,4 @@
-tcpTargets = tcpServer tcpClient
+tcpTargets = tcpServer tcpClient frameClient frameServer
 threadsTargets = threadUser ficheux pesenti simpleSem
 tcpThrTargets = threadedServer threadedClient
 alltargets = $(tcpTargets)  $(threadsTargets) $(tcpThrTargets)
