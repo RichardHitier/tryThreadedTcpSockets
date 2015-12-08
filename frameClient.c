@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
 
     open_and_connect(&sockfd, argv[1], portno);
 
-
     read_frame_from_socket(&ourFrame,  sockfd);
+
     print_frame_msg( &ourFrame);
 
     close(sockfd);
