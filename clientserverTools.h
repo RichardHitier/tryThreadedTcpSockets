@@ -11,7 +11,7 @@ typedef struct {
     int msgSot;
     int cmdId;
     int bdyLgth;
-    char msgBody[256];
+    char *msgBody;
     int msgEot;
 } t_msg_frame;
 
