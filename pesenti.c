@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <pthread.h>
 
 pthread_cond_t condition = PTHREAD_COND_INITIALIZER; /* Création de la condition */

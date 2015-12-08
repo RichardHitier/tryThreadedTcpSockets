@@ -27,7 +27,6 @@ int main(int argc, char *argv[])
 {
     void* ret;
      int sockfd, portno;
-     int n;
      pthread_t th1, th2;
 
      if (argc < 2) {

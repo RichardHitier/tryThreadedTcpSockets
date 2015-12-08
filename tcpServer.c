@@ -4,7 +4,6 @@ int main(int argc, char *argv[])
 {
      int sockfd, newsockfd, portno;
      char buffer[256];
-     int n;
 
      if (argc < 2) {
          fprintf(stderr,"ERROR, no port provided\n");

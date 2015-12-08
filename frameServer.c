@@ -5,9 +5,7 @@
 int main(int argc, char *argv[])
 {
     int newsockfd;
-    void* ret;
     int sockfd, portno;
-    int n;
     t_msg_frame ourFrame={1,2,3,"hello world",5};
 
     if (argc < 2) {

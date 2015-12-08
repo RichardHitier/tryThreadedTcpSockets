@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-    int sockfd, portno, n, i=0;
+    int sockfd, portno, i=0;
 
     char buffer[256];
 

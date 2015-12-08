@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <pthread.h>
 #include <semaphore.h>
 
@@ -38,4 +39,6 @@ int main(int argc, char **argv){
 
     pthread_join(th_tab[1], &ret);
     pthread_join(th_tab[2], &ret);
+
+    return EXIT_SUCCESS;
 }

@@ -3,6 +3,9 @@ threadsTargets = threadUser ficheux pesenti simpleSem
 tcpThrTargets = threadedServer threadedClient
 alltargets = $(tcpTargets)  $(threadsTargets) $(tcpThrTargets)
 
+gccopt=-Wall
+GCC=gcc ${gccopt}
+
 .PHONY: all
 all: $(alltargets)
 
@@ -22,17 +25,17 @@ clean:
 #
 
 %.o: %.c
-	gcc -c -o$@ $< 
+	${GCC} -c -o$@ $< 
 
 # guess prerequisites from target name
 #
 .SECONDEXPANSION:
 
 $(tcpTargets): $$@.o clientserverTools.o
-	gcc -o$@ $^
+	${GCC} -o$@ $^
 
 $(threadsTargets): $$@.c
-	gcc -pthread -o$@ $^
+	${GCC} -pthread -o$@ $^
 
 $(tcpThrTargets): $$@.o clientserverTools.o
-	gcc -pthread -o$@ $^
+	${GCC} -pthread -o$@ $^

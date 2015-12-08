@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <pthread.h>
 
 static pthread_mutex_t my_mutex;
@@ -30,7 +31,7 @@ void *write_tab_process (void * arg)
   pthread_exit (0);
 }
 
-main (int ac, char **av)
+int main (int ac, char **av)
 {
   pthread_t th1, th2;
   void *ret;
@@ -49,4 +50,6 @@ main (int ac, char **av)
   }
 
   (void)pthread_join (th2, &ret);
+
+  return EXIT_SUCCESS;
 }

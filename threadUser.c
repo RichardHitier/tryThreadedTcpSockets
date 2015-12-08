@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <pthread.h>
 
 /*
@@ -72,4 +73,6 @@ int main( int argc, char **argv){
 
     if( pthread_mutex_destroy(&g_data.mutex))
         perror("MUTEX_DESTROY FAILED");;
+
+    return EXIT_SUCCESS;
 }
