@@ -1,9 +1,9 @@
-tcpTargets = tcpServer tcpClient frameClient frameServer
+otherTargets = dynamicalBuffer
+cpTargets = tcpServer tcpClient frameClient frameServer
 threadsTargets = threadUser ficheux pesenti simpleSem
 tcpThrTargets = threadedServer threadedClient
-alltargets = $(tcpTargets)  $(threadsTargets) $(tcpThrTargets)
+alltargets = $(tcpTargets)  $(threadsTargets) $(tcpThrTargets) $(otherTargets)
 
-otherTargets = dynamicalBuffer strings
 
 gccopt=-Wall
 GCC=gcc ${gccopt}
