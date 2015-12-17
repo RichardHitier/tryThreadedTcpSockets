@@ -7,6 +7,9 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
+#define DEFPORT 5555
+#define DEFHOST "localhost"
+
 typedef struct {
     int msgSot;
     int cmdId;
