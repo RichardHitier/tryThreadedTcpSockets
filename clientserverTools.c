@@ -6,6 +6,7 @@ void error(const char *msg) {
 }
 
 void open_and_listen(int *sockfd, int portno){
+     int yes=1;
      struct sockaddr_in serv_addr;
      // open socket to listen to
      *sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -15,6 +16,8 @@ void open_and_listen(int *sockfd, int portno){
      serv_addr.sin_family = AF_INET;
      serv_addr.sin_addr.s_addr = INADDR_ANY;
      serv_addr.sin_port = htons(portno);
+     // lose the pesky "address already in use" error message
+     setsockopt(*sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
      if (bind(*sockfd, (struct sockaddr *) &serv_addr,
               sizeof(serv_addr)) < 0) 
               error("ERROR on binding");
