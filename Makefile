@@ -1,5 +1,5 @@
 otherTargets = dynamicalBuffer
-tcpTargets = tcpServer tcpClient frameClient frameServer selectServer
+tcpTargets = HectorLassoEcho tcpServer tcpClient frameClient frameServer selectServer
 threadsTargets = threadUser ficheux pesenti simpleSem
 tcpThrTargets = threadedServer threadedClient
 alltargets = $(tcpTargets)  $(threadsTargets) $(tcpThrTargets) $(otherTargets)
