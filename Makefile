@@ -1,5 +1,5 @@
 otherTargets = dynamicalBuffer
-cpTargets = tcpServer tcpClient frameClient frameServer
+tcpTargets = tcpServer tcpClient frameClient frameServer selectServer
 threadsTargets = threadUser ficheux pesenti simpleSem
 tcpThrTargets = threadedServer threadedClient
 alltargets = $(tcpTargets)  $(threadsTargets) $(tcpThrTargets) $(otherTargets)
