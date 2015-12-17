@@ -69,11 +69,11 @@ void write_on_socket(char *buffer, int sockfd){
     if (n < 0) error("ERROR writing to socket");
 }
 
-void read_from_socket(char *buffer, int sockfd){
+int read_from_socket(char *buffer, int sockfd){
     int n;
     bzero(buffer,256);
     n = read(sockfd,buffer,255);
-    if (n < 0) error("ERROR reading from socket");
+    return n;
 }
 
 int  write_frame_on_socket(t_msg_frame *msgFrame,  int sockfd){
