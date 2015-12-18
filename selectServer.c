@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     int portno=DEFPORT;
 
     fd_set readset, tempset;
+    struct timeval tv;
 
     char *errStr="";
     char buffer[256];
@@ -23,6 +24,8 @@ int main(int argc, char *argv[])
     }
 
 
+
+
     FD_ZERO(&readset);
     FD_ZERO(&tempset);
 
@@ -31,16 +34,23 @@ int main(int argc, char *argv[])
     maxfd=mainsockfd;
 
 
+    printf("before loop\n");
     // main reading loop
     for(;;){
         printf("in listening loop\n");
         tempset=readset;
 
+        tv.tv_sec = 3;
+        tv.tv_usec = 0;
         // wait for data
         do{
-            result = select( maxfd + 1, &tempset, NULL, NULL, NULL);
+            result = select( maxfd + 1, &tempset, NULL, NULL, &tv);
         }while(result==-1&&errno==EINTR);
 
+        // timed out
+        if ( result == 0 ){
+            printf("timed out\n");
+        } else
         // got data
         if ( result > 0){
             // is this a new client connexion ?
@@ -68,7 +78,7 @@ int main(int argc, char *argv[])
                 } 
 
             }// end for all sockets in list
-        } else if ( result <0){
+        } else { //  result <0
             sprintf( errStr, "Error on select(): %s", strerror(errno));
             perror(errStr);
         }
