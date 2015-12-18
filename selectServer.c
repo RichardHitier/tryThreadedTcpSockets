@@ -6,9 +6,9 @@
 
 int main(int argc, char *argv[])
 {
-    int i;
+    int i=0;
     int currfd;
-    int sockfd, result;
+    int mainsockfd, result;
     int maxfd;
     int portno=DEFPORT;
 
@@ -26,17 +26,10 @@ int main(int argc, char *argv[])
     FD_ZERO(&readset);
     FD_ZERO(&tempset);
 
-    open_and_listen(&sockfd, portno);
+    open_and_listen(&mainsockfd, portno);
+    FD_SET(mainsockfd, &readset);
+    maxfd=mainsockfd;
 
-
-    // wait for all MAXFDS connections
-    for( i=0; i<MAXFDS; i++){
-        get_client_connection(&currfd, sockfd);
-        FD_SET(currfd, &readset);
-        maxfd=(maxfd>currfd)?maxfd:currfd;
-        printf("%d: Adding  socket num %d; maxfd: %d\n", i, currfd, maxfd);
-    }
-    printf("ok, done with connecting socket to list\n");
 
     // main reading loop
     for(;;){
@@ -46,29 +39,31 @@ int main(int argc, char *argv[])
         // wait for data
         do{
             result = select( maxfd + 1, &tempset, NULL, NULL, NULL);
-            printf("\rgot result: %d", result);
         }while(result==-1&&errno==EINTR);
-        printf("Hey ! result: %d\n", result);
 
         // got data
         if ( result > 0){
-            // scan all openend sockets
+            // is this a new client connexion ?
+            if( FD_ISSET( mainsockfd, &tempset) ){
+                get_client_connection(&currfd, mainsockfd);
+                FD_SET(currfd, &readset);
+                maxfd=(maxfd>currfd)?maxfd:currfd;
+                printf("%d: Adding  socket num %d; maxfd: %d\n", i++, currfd, maxfd);
+                continue;
+            } 
+            // else scan all openend sockets
             for( currfd=0; currfd<maxfd+1; currfd++){
-                //printf("Does %d has ?\n", currfd);
+
                 if( FD_ISSET( currfd, &tempset)){
-                    printf("yes %d has\n", currfd);
                     result=read_from_socket(buffer, currfd);
                     if (result == 0) {
-                        /* This means the other side closed the socket */
+                        // This means the other side closed the socket
                         perror("client closed, we close");
                         FD_CLR(currfd, &readset);
-                        //close(currfd);
-                        // TODO: we should release the
-                        // socket in the list ! and be able
-                        // to accept new connection
+                        close(currfd);
                     }
                     else {
-                        printf("Here is the message: %s\n",buffer);
+                        printf("Socket %d message: %s\n",currfd, buffer);
                     }
                 } 
 
@@ -80,6 +75,6 @@ int main(int argc, char *argv[])
     }//end main loop
 
 
-    close(sockfd);
+    close(mainsockfd);
     return 0; 
 }
