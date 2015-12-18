@@ -55,10 +55,13 @@ int main(int argc, char *argv[])
         if ( result > 0){
             // is this a new client connexion ?
             if( FD_ISSET( mainsockfd, &tempset) ){
+                char clientBuf[256];
                 get_client_connection(&currfd, mainsockfd);
                 FD_SET(currfd, &readset);
                 maxfd=(maxfd>currfd)?maxfd:currfd;
                 printf("%d: Adding  socket num %d; maxfd: %d\n", i++, currfd, maxfd);
+                sprintf(clientBuf, "Hi client_%d, you're welcome\n", currfd);
+                write_on_socket(clientBuf, currfd);
                 continue;
             } 
             // else scan all openend sockets
