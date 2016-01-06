@@ -53,7 +53,8 @@ int main(int argc, char *argv[])
         } else
         // got data
         if ( result > 0){
-            // is this a new client connexion ?
+            // is this a new client connexion
+            // on our main listening socket ?
             if( FD_ISSET( mainsockfd, &tempset) ){
                 char clientBuf[256];
                 get_client_connection(&currfd, mainsockfd);
@@ -65,6 +66,7 @@ int main(int argc, char *argv[])
                 continue;
             } 
             // else scan all openend sockets
+            // for incomming messages
             for( currfd=0; currfd<maxfd+1; currfd++){
 
                 if( FD_ISSET( currfd, &tempset)){
