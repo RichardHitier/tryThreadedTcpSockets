@@ -48,3 +48,7 @@ $(threadsTargets): $$@.c
 
 $(tcpThrTargets): $$@.o clientserverTools.o
 	${GCC} -pthread -o$@ $^
+
+tryFloat2N: tryFloat2N.o netencodingTools.o
+	${GCC} -o$@ $^
+
