@@ -48,3 +48,7 @@ $(threadsTargets): $$@.c
 
 $(tcpThrTargets): $$@.o clientserverTools.o
 	${GCC} -pthread -o$@ $^
+
+useNET: useNET.o netencodingTools.o
+	${GCC} -o$@ $^
+
